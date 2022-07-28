@@ -6,7 +6,7 @@ const {
 
 //! CONEXIÓN A LA BASE DE DATOS
 const sequelize = new Sequelize(DATABASE_URL, {
-    dialectOption:{
+    dialectOptions:{
         ssl: {
             require: true,
             rejectUnauthorized:false

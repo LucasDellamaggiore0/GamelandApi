@@ -40,7 +40,11 @@ router.post('/signin', [
         })
         res.json({
             ok: true,
-            token: token
+            token: token,
+            user: {
+                id: user.id,
+                name: user.name,
+            }
         });
 
     } catch (error) {

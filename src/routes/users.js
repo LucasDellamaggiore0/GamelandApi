@@ -33,8 +33,6 @@ router.post('/', [
         const salt = bycrypt.genSaltSync(10);
         const passwordBcrypt = bycrypt.hashSync(password, salt);
         const newUser = await postUser(name, email, passwordBcrypt);
-        // newUser.password = bycrypt.hashSync(password, salt);
-        // newUser.password = await hash(password, 10)
         res.json({
             ok: true,
             msg: 'Usuario creado correctamente',
@@ -44,5 +42,6 @@ router.post('/', [
         res.status(400).send({error: error.message});
     }
 })
+
 
 module.exports = router;

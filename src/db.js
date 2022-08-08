@@ -5,7 +5,7 @@ const {
 } = process.env;
 
 //! CONEXIÓN A LA BASE DE DATOS
-const sequelize = new Sequelize(``, {
+const sequelize = new Sequelize(DATABASE_URL, {
     logging: false,
     native: false,
     dialectOptions:{

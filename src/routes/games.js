@@ -31,12 +31,13 @@ router.post('/', [
     check('description', 'La descripcion del juego es obligatoria').not().isEmpty(),
     check('genres', 'El juego debe tener al menos un género').not().isEmpty(),
     check('platforms', 'El juego debe tener al menos una plataforma').not().isEmpty(),
+    check('release_date', 'La fecha de lanzamiento del juego es obligatoria').not().isEmpty(),
 
 ],validateFields, async (req, res) => {
-    const {name, description, genres, platforms, img} = req.body;
+    const {name, description, genres, platforms, img, released_date} = req.body;
     //! IMPORTANTE : IMG ES UN ARRAY DE OBJETOS, CHEQUEAR QUE DESDE EL FRONT SE ENVIE UN ARRAY DE OBJETOS
     try {
-        const newGame = await postGame(name, description, genres, platforms, img);
+        const newGame = await postGame(name, description, genres, platforms, img, released_date);
         res.json({
             ok: true,
             game: newGame

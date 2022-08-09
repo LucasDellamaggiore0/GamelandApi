@@ -16,6 +16,10 @@ module.exports = (sequelize) => {
         description: {
             type: DataTypes.STRING(1234),
             allowNull: false,
+        },
+        release_date: {
+            type: DataTypes.DATE,
+            allowNull: false,
         }
     }, {
         timestamps: false,

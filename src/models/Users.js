@@ -20,6 +20,10 @@ module.exports = (sequelize) => {
             type: DataTypes.STRING(255),
             allowNull: false,
             lowercase: true,
+        },
+        status : {
+            type: DataTypes.STRING,
+            defaultValue: 'UNVERIFIED',
         }
     }, {
         timestamps: false,

@@ -31,7 +31,7 @@ router.post('/', [
     check('description', 'La descripcion del juego es obligatoria').not().isEmpty(),
     check('genres', 'El juego debe tener al menos un género').not().isEmpty(),
     check('platforms', 'El juego debe tener al menos una plataforma').not().isEmpty(),
-    check('released_date', 'La fecha de lanzamiento del juego es obligatoria').not().isEmpty(),
+    check('released_date', 'La fecha de lanzamiento es obligatoria').not().isEmpty(),
 
 ],validateFields, async (req, res) => {
     const {name, description, genres, platforms, img, released_date} = req.body;

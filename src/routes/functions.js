@@ -187,7 +187,7 @@ async function searchByPlatform(platform) {
 
 //! POSTEAMOS UN JUEGO A LA BASE DE DATOS
 
-async function postGame(name, description, genres, platforms, img) {
+async function postGame(name, description, genres, platforms, img, released_date) {
     const imgs = await Images.bulkCreate(img);
     imgs.map(img => {
         return {
@@ -199,6 +199,7 @@ async function postGame(name, description, genres, platforms, img) {
     const newGame = await Games.create({
         name,
         description,
+        released_date
     });
     newGame.addGenres(genres);
     newGame.addPlatforms(platforms);

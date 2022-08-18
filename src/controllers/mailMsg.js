@@ -1,8 +1,8 @@
-const subjectNewAccount = 'Welcome to Gameland';
+const subjectNewAccount = 'Bienvenido a Gameland';
 
 const textNewAccount = (userName) => {
     const html = `
-        <h1>Welcome to Gameland</h1>
+        <h1>Bienvenido a Gameland</h1>
         <p>
             Hola ${userName},
             Bienvenido a Gameland, muchas gracias por registrarte.

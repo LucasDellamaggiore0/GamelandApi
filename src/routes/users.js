@@ -5,6 +5,8 @@ const {check} = require('express-validator');
 const {validateFields} = require('../middlewares/validateFields');
 const {postUser} = require('./functions');
 const {Users} = require('../db');
+const {sendMail} = require('../controllers/sendMail');
+const {subjectNewAccount, textNewAccount} = require('../controllers/mailMsg');
 
 router.post('/', [
     check('name', 'El nombre del usuario es obligatorio').not().isEmpty(),
@@ -33,10 +35,12 @@ router.post('/', [
         const salt = bycrypt.genSaltSync(10);
         const passwordBcrypt = bycrypt.hashSync(password, salt);
         const newUser = await postUser(name, email, passwordBcrypt);
+        const resMail = await sendMail(subjectNewAccount, textNewAccount(name), email);
         res.json({
             ok: true,
             msg: 'Usuario creado correctamente',
-            newUser
+            newUser,
+            resMail
         });
     } catch (error) {
         res.status(400).send({error: error.message});

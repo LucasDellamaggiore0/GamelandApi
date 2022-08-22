@@ -35,12 +35,37 @@ router.post('/', [
         const salt = bycrypt.genSaltSync(10);
         const passwordBcrypt = bycrypt.hashSync(password, salt);
         const newUser = await postUser(name, email, passwordBcrypt);
-        const resMail = await sendMail(subjectNewAccount, textNewAccount(name), email);
+        const link = "";
+        const resMail = await sendMail(subjectNewAccount, textNewAccount(name, link), email);
         res.json({
             ok: true,
             msg: 'Usuario creado correctamente',
             newUser,
             resMail
+        });
+    } catch (error) {
+        // res.status(400).send({error: error.message});
+        console.log(error);
+    }
+})
+
+router.put('/activateAccount/:id', async (req, res) => {
+    const {id} = req.params;
+    try {
+        const user = await Users.findOne({
+            where: {
+                id
+            }
+        });
+        if(!user){
+            return res.status(400).send({error: 'User not found'});
+        }
+        await user.update({
+            isActive: true
+        });
+        res.json({
+            ok: true,
+            msg: 'Account activated successfully!'
         });
     } catch (error) {
         res.status(400).send({error: error.message});

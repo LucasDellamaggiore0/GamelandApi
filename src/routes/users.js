@@ -35,7 +35,7 @@ router.post('/', [
         const salt = bycrypt.genSaltSync(10);
         const passwordBcrypt = bycrypt.hashSync(password, salt);
         const newUser = await postUser(name, email, passwordBcrypt);
-        const link = "";
+        const link = "https://gamelandapp.netlify.app/activateAccount";
         const resMail = await sendMail(subjectNewAccount, textNewAccount(name, link), email);
         res.json({
             ok: true,

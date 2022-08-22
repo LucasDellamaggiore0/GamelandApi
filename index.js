@@ -5,7 +5,7 @@ const {PORT} = process.env;
 
 
 
-sequelize.sync({force: false}).then(() => {
+sequelize.sync({force: true}).then(() => {
     server.listen(PORT, () => {
         console.log(`Server listening on port ${PORT}`);
         // console.log(sequelize.models);

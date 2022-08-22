@@ -1,12 +1,15 @@
 const subjectNewAccount = 'Bienvenido a Gameland';
 
-const textNewAccount = (userName, link) => {
+const textNewAccount = (userName) => {
     const html = `
+        <h1>Bienvenido a Gameland</h1>
         <p>
             Hola ${userName},
             Bienvenido a Gameland, muchas gracias por registrarte.
-            Ingresa al siguiente link para activar tu cuenta:
-            <a href="${link}">Activar cuenta</a>
+            Te pido muy amablemente que seas responsable a la hora de subir contenido a la pagina, ya que es un proyecto personal que realicé con mucho esfuerzo y posiblemente sea visto por muchas personas, entre ellas reclutadores.
+            Espero que disfrutes de la experiencia.
+            Saludos.
+            Gameland Staff
         </p>
     `
     return html;

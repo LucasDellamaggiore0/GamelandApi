@@ -17,26 +17,24 @@ router.post('/signin', [
         if(!user){
             return res.status(400).send({
                 ok: false,
-                msg: 'User not found'
+                msg: 'Usuario no encontrado'
             });
         }
+
+        //! Verificar contraseñas
         const validPassword = bycrypt.compareSync(password, user.password);
+
         if(!validPassword){
             return res.status(400).send({
                 ok: false,
-                msg: 'Password incorrect'
+                msg: 'Contraseña incorrecta'
             });
         }
-        if(!user.isActive){
-            return res.status(400).send({
-                ok: false,
-                msg: 'User not active'
-            });
-        }
+        
+        //! Generar JWT
         const token = jwt.sign({
             id: user.id,
             name: user.name,
-            isActive: user.isActive
         }, JWT_SECRET, {
             expiresIn: 86400 // 1 dia
         })
@@ -48,10 +46,11 @@ router.post('/signin', [
                 name: user.name,
             }
         });
+
     } catch (error) {
         res.status(400).send({
             ok:false,
-            msg: "There was an error logging in"
+            msg: "Hubo un error al iniciar sesión"
         });
     }
 })

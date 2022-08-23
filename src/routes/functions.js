@@ -1,5 +1,6 @@
 const { Games, Platforms, Genres, Users, Images } = require('../db');
 const { Op } = require('sequelize');
+const jwt = require('jsonwebtoken');
 
 //! OBTENEMOS TODOS LOS JUEGOS DE LA BASE DE DATOS
 async function getGames() {

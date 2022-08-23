@@ -7,6 +7,8 @@ const {postUser} = require('./functions');
 const {Users} = require('../db');
 const {sendMail} = require('../controllers/sendMail');
 const {subjectNewAccount, textNewAccount} = require('../controllers/mailMsg');
+const { getToken, getTokenData } = require('../controllers/jwt.config');
+const {REACT_URL} = process.env
 
 router.post('/', [
     check('name', 'El nombre del usuario es obligatorio').not().isEmpty(),
@@ -35,7 +37,8 @@ router.post('/', [
         const salt = bycrypt.genSaltSync(10);
         const passwordBcrypt = bycrypt.hashSync(password, salt);
         const newUser = await postUser(name, email, passwordBcrypt);
-        const link = "https://gamelandapp.netlify.app/activateAccount";
+        const token = getToken(email)
+        const link = `http://localhost:3001/users/activateAccount/${token}`;
         const resMail = await sendMail(subjectNewAccount, textNewAccount(name, link), email);
         res.json({
             ok: true,
@@ -49,28 +52,45 @@ router.post('/', [
     }
 })
 
-router.put('/activateAccount/:id', async (req, res) => {
-    const {id} = req.params;
+router.get('/activateAccount/:token', async(req,res)=>{
+    const {token} = req.params
     try {
+        const data = getTokenData(token)
+        if(!data){
+            res.status(400).send({
+                err : "Se produjo un error al obtener la data"
+            })
+        }
+        const UserEmail = data.data
+        // console.log(email)
         const user = await Users.findOne({
             where: {
-                id
+                email : UserEmail
             }
-        });
+        })
         if(!user){
-            return res.status(400).send({error: 'User not found'});
+            res.status(400).send({
+                err: "Usuario no encontrado"
+            })
         }
-        await user.update({
-            isActive: true
-        });
-        res.json({
-            ok: true,
-            msg: 'Account activated successfully!'
-        });
+        // await Users.update({isActive : true}, {where: {
+        //     isActive: null
+        // }})
+
+        const users = await Users.update(
+            {
+                isActive : true
+            },
+            {
+                where : {isActive : false}
+            }
+        )
+        res.redirect(`${REACT_URL}/accountActivate`)
+        
     } catch (error) {
-        res.status(400).send({error: error.message});
+        console.log(error)
     }
-})
+} )
 
 
 module.exports = router;

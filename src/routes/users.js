@@ -38,7 +38,7 @@ router.post('/', [
         const passwordBcrypt = bycrypt.hashSync(password, salt);
         const newUser = await postUser(name, email, passwordBcrypt);
         const token = getToken(email)
-        const link = `http://localhost:3001/users/activateAccount/${token}`;
+        const link = `https://gamelandapi.herokuapp.com/users/activateAccount/${token}`;
         const resMail = await sendMail(subjectNewAccount, textNewAccount(name, link), email);
         res.json({
             ok: true,
